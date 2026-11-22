@@ -1,0 +1,13 @@
+<!doctype html><html lang="hi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{font-family:Arial;background:#f1f5f9;margin:0;padding:18px;color:#0f172a}h1{font-size:24px}
+table{border-collapse:collapse;width:100%;background:white;min-width:1000px}th,td{padding:10px;border:1px solid #cbd5e1;text-align:left;font-size:14px}
+.wrap{overflow:auto}a,button{display:inline-block;padding:8px 10px;background:#1d4ed8;color:white;text-decoration:none;border:0;border-radius:6px;margin:2px}
+select{padding:7px} .msg{background:#dbeafe;padding:10px;border-radius:8px}
+</style><h1>{{shop}} — Admin Dashboard</h1><p><a href="/qr">Customer QR</a> <a href="/admin/logout">Logout</a></p>
+{% with messages=get_flashed_messages(with_categories=true) %}{% for cat,m in messages %}<p class="msg">{{m}}</p>{% endfor %}{% endwith %}
+<div class="wrap"><table><tr><th>Order</th><th>Customer</th><th>Mobile</th><th>Print</th><th>Copies</th><th>Amount</th><th>Payment</th><th>Payment Status</th><th>Order Status</th><th>File / Action</th></tr>
+{% for o in orders %}<tr><td>{{o.order_code}}<br>{{o.created_at}}</td><td>{{o.customer_name}}</td><td>{{o.mobile}}</td><td>{{o.print_type}}</td><td>{{o.copies}}</td><td>₹{{o.amount}}</td><td>{{o.payment_mode}}</td>
+<td><form method="post" action="/admin/payment/{{o.id}}"><select name="payment_status"><option {% if o.payment_status=='Pending' %}selected{% endif %}>Pending</option><option {% if o.payment_status=='Paid' %}selected{% endif %}>Paid</option></select><button>Save</button></form></td>
+<td><form method="post" action="/admin/status/{{o.id}}"><select name="status">{% for s in ['New','Accepted','Printing','Completed','Cancelled'] %}<option {% if o.order_status==s %}selected{% endif %}>{{s}}</option>{% endfor %}</select><button>Save</button></form></td>
+<td><a href="/admin/file/{{o.id}}">Download</a><form method="post" action="/admin/print/{{o.id}}"><button>Print on PC</button></form></td></tr>{% else %}<tr><td colspan="10">अभी कोई ऑर्डर नहीं आया है।</td></tr>{% endfor %}</table></div></html>

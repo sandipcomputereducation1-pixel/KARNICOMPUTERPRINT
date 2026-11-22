@@ -1,0 +1,3 @@
+<!doctype html><html lang="hi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{font-family:Arial;background:#eff6ff;padding:25px}.box{max-width:380px;margin:60px auto;background:white;padding:25px;border-radius:12px}input,button{width:100%;padding:12px;margin-top:12px}</style>
+<div class="box"><h2>Admin Login</h2>{% with messages=get_flashed_messages() %}{% for m in messages %}<p>{{m}}</p>{% endfor %}{% endwith %}<form method="post"><input type="password" name="pin" placeholder="Admin PIN" required><button>Login</button></form></div></html>

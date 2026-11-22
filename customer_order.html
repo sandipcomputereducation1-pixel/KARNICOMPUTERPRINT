@@ -1,0 +1,18 @@
+<!doctype html><html lang="hi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Print Order - {{ shop }}</title><style>
+*{box-sizing:border-box}body{font-family:Arial;background:#eff6ff;margin:0;padding:18px;color:#172554}
+main{max-width:520px;margin:20px auto;background:white;padding:22px;border-radius:16px;box-shadow:0 8px 25px #0001}
+h1{font-size:24px}label{display:block;margin-top:14px;font-weight:bold}input,select{width:100%;padding:12px;margin-top:6px;border:1px solid #cbd5e1;border-radius:8px}
+button{width:100%;padding:14px;background:#1d4ed8;color:white;border:0;border-radius:9px;margin-top:20px;font-size:17px}
+.note{background:#eff6ff;padding:12px;border-radius:8px;margin-top:12px}.error{color:#b91c1c}
+</style><main><h1>{{ shop }}</h1><p>{{ address }}<br>{{ phone }}</p><h2>अपना Print Order भेजें</h2>
+{% with messages=get_flashed_messages() %}{% for m in messages %}<p class="error">{{m}}</p>{% endfor %}{% endwith %}
+<form method="post" enctype="multipart/form-data">
+<label>ग्राहक का नाम</label><input name="customer_name" required>
+<label>मोबाइल नंबर</label><input name="mobile" inputmode="numeric" minlength="10" required>
+<label>प्रिंट प्रकार</label><select name="print_type">{% for name,price in print_types.items() %}<option value="{{name}}">{{name}} — ₹{{price}} प्रति कॉपी</option>{% endfor %}</select>
+<label>कॉपी की संख्या</label><input type="number" name="copies" value="1" min="1" max="100" required>
+<label>PDF / फोटो अपलोड करें (अधिकतम 25 MB)</label><input type="file" name="document" accept=".pdf,.jpg,.jpeg,.png" required>
+<label>भुगतान का तरीका</label><select name="payment_mode"><option>UPI</option><option>Cash</option></select>
+<div class="note">UPI ID: <b>{{upi}}</b><br>ऑर्डर भेजने के बाद दुकान पर भुगतान की पुष्टि होगी।</div>
+<button type="submit">ऑर्डर भेजें</button></form></main></html>
